@@ -9,11 +9,6 @@ git:
   depth:
     1
 
-os:
-  - osx
-  - linux
-  - windows
-
 script:
   - npx @advtr/cli --user travis
 
