@@ -11,8 +11,13 @@ git:
 
 script:
   - npx @advtr/cli --user travis
-  - docker image inspect travis/advtr-proxy:latest >/dev/null 2>&1
-  - docker image inspect travis/advtr-proxy:dev >/dev/null 2>&1
+  - docker image inspect travis/proxy:development >/dev/null 2>&1
+  - docker image inspect travis/proxy:development-local >/dev/null 2>&1
+
+# Around 2.X.X will look at a way to add a tag/push to @advtr/cli
+# so this can be done easier without a rebuild
+after_success:
+  - npx @advtr/cli --user advtr --push
 
 after_script:
   - docker image ls

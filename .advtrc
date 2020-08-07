@@ -2,9 +2,9 @@ version: '1.0'
 
 services:
   production-proxy:
-    name: advtr-proxy
+    name: proxy
     dockerfile: .
-    default_tag: latest
+    default_tag: development
     before_build:
       - "mkdir ./nginx/"
       - "echo '{ \"host\": \"advtr.co.uk\"}' > ./nginx/data.json"
@@ -13,9 +13,9 @@ services:
       - "rm -Rf ./nginx"
     rm: true
   locahost-proxy:
-    name: advtr-proxy
+    name: proxy
     dockerfile: .
-    default_tag: dev
+    default_tag: development-local
     before_build:
       - "mkdir ./nginx/"
       - "echo '{ \"host\": \"localhost\"}' > ./nginx/data.json"
