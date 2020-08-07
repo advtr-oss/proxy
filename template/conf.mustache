@@ -1,0 +1,60 @@
+events {}
+
+http {
+
+    include mime.types;
+
+    upstream frontend {
+        server frontend:80;
+    }
+
+    upstream kibana {
+        server kib01:5601;
+    }
+
+    upstream elasticsearch {
+        server es01:9200;
+    }
+
+    server {
+        listen 80;
+        listen [::]:80;
+
+        server_name {{host}};
+
+        server_tokens off;
+
+        location / {
+            proxy_pass http://frontend/;
+        }
+    }
+
+    server {
+        listen 80;
+        listen [::]:80;
+
+        server_name analytics.{{host}};
+
+        server_tokens off;
+
+        location / {
+            proxy_pass http://kibana/;
+        }
+
+    }
+
+    server {
+        listen 80;
+        listen [::]:80;
+
+        server_name api.analytics.{{host}};
+
+        server_tokens off;
+
+        client_max_body_size 100M;
+
+        location / {
+            proxy_pass http://elasticsearch/;
+        }
+    }
+}

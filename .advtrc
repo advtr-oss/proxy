@@ -1,0 +1,28 @@
+version: '1.0'
+
+services:
+  production-proxy:
+    name: advtr-proxy
+    dockerfile: .
+    default_tag: latest
+    before_build:
+      - "mkdir ./nginx/"
+      - "echo '{ \"host\": \"advtr.co.uk\"}' > ./nginx/data.json"
+      - "npx mustache ./nginx/data.json ./template/conf.mustache > ./nginx/default.conf"
+    post_push:
+      - "rm -Rf ./nginx"
+    rm: true
+  locahost-proxy:
+    name: advtr-proxy
+    dockerfile: .
+    default_tag: dev
+    before_build:
+      - "mkdir ./nginx/"
+      - "echo '{ \"host\": \"localhost\"}' > ./nginx/data.json"
+      - "npx mustache ./nginx/data.json ./template/conf.mustache > ./nginx/default.conf"
+    post_push:
+      - "rm -Rf ./nginx"
+    rm: true
+
+registry:
+  docker:
