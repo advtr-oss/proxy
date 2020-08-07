@@ -11,6 +11,8 @@ git:
 
 script:
   - npx @advtr/cli --user travis
+  - docker image inspect travis/advtr-proxy:latest >/dev/null 2>&1
+  - docker image inspect travis/advtr-proxy:dev >/dev/null 2>&1
 
 after_script:
   - docker image ls
