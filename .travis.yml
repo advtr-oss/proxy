@@ -17,7 +17,5 @@ script:
 # Around 2.X.X will look at a way to add a tag/push to @advtr/cli
 # so this can be done easier without a rebuild
 after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - npx @advtr/cli --user advtr --push
-
-after_script:
-  - docker image ls
